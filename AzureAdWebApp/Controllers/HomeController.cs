@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace AzureAdWebApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -31,7 +31,7 @@ namespace AzureAdWebApp.Controllers
             return View();
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Public()
         {
             return View();
