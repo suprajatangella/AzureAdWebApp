@@ -24,8 +24,9 @@ steps:
 
 - task: AzureWebApp@1
   inputs:
-    azureSubscription: 'Azure subscription 1(6e8f92a1-933a-4c66-b0b2-78375012c12c)'
+    azureSubscription: 'Azure subscription 1(1)(6e8f92a1-933a-4c66-b0b2-78375012c12c)'
     appType: 'webApp'
     appName: 'AzureADWebApp'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
+
