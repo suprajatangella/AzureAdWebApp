@@ -33,6 +33,18 @@
                         <li class="nav-item">
                             <a class="nav-link" style="color:white" asp-controller="Home" asp-action="Public">Public</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:white" asp-controller="Home" asp-action="AdminOnlyPage">Admin Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:white" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:white" href="/.auth/login/aad?post_login_redirect_uri=/Home/Index">Log in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color:white" href="/.auth/logout?post_logout_redirect_uri=/Home/Index">Log out</a>
+                        </li>
 
                     </ul>
                 </div>

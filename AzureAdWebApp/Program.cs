@@ -1,3 +1,5 @@
+using AzureAdWebApp;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
@@ -11,6 +13,19 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("ManagerOnly", policy => policy.RequireRole("Manager"));
+});
+
+builder.Services.Configure<CookieAuthenticationOptions>(
+    CookieAuthenticationDefaults.AuthenticationScheme,
+    options =>
+    {
+        options.AccessDeniedPath = "/Home/CustomAccessDenied";
+    });
+
 
 var app = builder.Build();
 
@@ -22,6 +37,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Inject Easy Auth user info
+//app.UseMiddleware<EasyAuthMiddleware>();
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -32,8 +50,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Home}/{action=Test}/{id?}")
     .WithStaticAssets();
-
 
 app.Run();

@@ -2,6 +2,8 @@ using AzureAdWebApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace AzureAdWebApp.Controllers
 {
@@ -15,9 +17,14 @@ namespace AzureAdWebApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Message = "Welcome to the internal company portal!";
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction("CustomAccessDenied");
+            }
+            ViewBag.Message = "Welcome to the internal company portal with role"+ ViewBag.Role ;
             return View();
         }
 
@@ -36,8 +43,26 @@ namespace AzureAdWebApp.Controllers
         {
             return View();
         }
-
+        //[Authorize(Roles = "Manager")]
         public IActionResult Privacy()
+        {
+            if (!User.IsInRole("Manager"))
+            {
+                return RedirectToAction("CustomAccessDenied");
+            }
+            return View();
+        }
+        //[Authorize(Roles = "Admin")]
+        public IActionResult AdminOnlyPage()
+        {
+            if (!User.IsInRole("Admin"))
+            {
+                return RedirectToAction("CustomAccessDenied");
+            }
+            return View();
+        }
+
+        public IActionResult CustomAccessDenied()
         {
             return View();
         }
